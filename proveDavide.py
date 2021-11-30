@@ -10,8 +10,16 @@ accessTokenSecret = "zhn0bp4aKpXFKnAeF3ZHfkylIcoBYr46m5JlfK4TzDrgO"
 auth = tweepy.AppAuthHandler(consumerKey, consumerSecret)
 api = tweepy.API(auth)
 
-tweets = tweepy.Cursor(api.search_tweets, q='green pass').items(5)
 
+tweets = tweepy.Cursor(api.search_tweets, q='green pass', until='2021-11-22', lang='it', locale='it', tweet_mode='extended').items(5)
+
+for tweet in tweets:
+    try:
+        print(tweet.retweeted_status.full_text)
+    except AttributeError:  # Not a Retweet
+        print(tweet.full_text)
+
+"""
 remove_rt = lambda x: re.sub('RT @\w+: ', '', x)
 tweetList = []
 for tweet in tweets:
@@ -29,3 +37,4 @@ tw_list['text'] = tw_list['text'].map(remove_rt).map(rt)
 tw_list['text'] = tw_list['text'].str.lower()
 
 print(tw_list['text'])
+"""
