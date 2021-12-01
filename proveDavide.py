@@ -11,9 +11,11 @@ auth = tweepy.AppAuthHandler(consumerKey, consumerSecret)
 api = tweepy.API(auth)
 
 
-tweets = tweepy.Cursor(api.search_tweets, q='green pass', until='2021-11-22', lang='it', locale='it', tweet_mode='extended').items(5)
+tweets = tweepy.Cursor(api.search_tweets, q='green pass', until='2021-11-23', lang='it', locale='it', tweet_mode='extended').items(5)
+
 
 for tweet in tweets:
+    print(tweet._json)
     try:
         print(tweet.retweeted_status.full_text)
     except AttributeError:  # Not a Retweet
