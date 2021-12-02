@@ -1,6 +1,16 @@
 import tweepy
 import re
 import pandas as pd
+import cleanedFunction
+import json
+
+all_tweet = []
+try:
+    f = open("alltweet.json", "r")
+    all_tweet = json.loads(f.read())
+    f.close()
+except Exception:
+    pass
 
 consumerKey = "MWdBTvrB6X2B3ykmaZ98GdQBo"
 consumerSecret = "r26Ixa7suHNOjnmSy6IhmYR2buhzs2VkYZxPs5kdPMG0lqTKPG"
@@ -10,16 +20,25 @@ accessTokenSecret = "zhn0bp4aKpXFKnAeF3ZHfkylIcoBYr46m5JlfK4TzDrgO"
 auth = tweepy.AppAuthHandler(consumerKey, consumerSecret)
 api = tweepy.API(auth)
 
-
-tweets = tweepy.Cursor(api.search_tweets, q='green pass', until='2021-11-23', lang='it', locale='it', tweet_mode='extended').items(5)
+tweets = tweepy.Cursor(api.search_tweets, q='green pass', until='2021-12-02', lang='it', locale='it', tweet_mode='extended').items(1)
 
 
 for tweet in tweets:
-    print(tweet._json)
+    date = tweet.created_at.strftime("%Y-%m-%d")
     try:
-        print(tweet.retweeted_status.full_text)
+        text = tweet.retweeted_status.full_text
     except AttributeError:  # Not a Retweet
-        print(tweet.full_text)
+        text = tweet.full_text
+    all_tweet.append({'text': text, 'date': date})
+
+all_tweet = cleanedFunction.removeRedundance(all_tweet)
+print(all_tweet)
+f = open("alltweet.json", "w")
+f.write(json.dumps(all_tweet))
+f.close()
+
+
+
 
 """
 remove_rt = lambda x: re.sub('RT @\w+: ', '', x)

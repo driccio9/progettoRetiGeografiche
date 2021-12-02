@@ -30,12 +30,7 @@ def style_text(text:str):
     # Convert to lowercase
     return text.lower()
 
-def remove_words(text_data:str):
-    # Remove all words as specified in a custom list of words
-    nltk.download('stopwords')
-    from nltk.corpus import stopwords
-    stopcorpus: typing.List = stopwords.words('english')
-    return [item for item in text_data if item not in stopcorpus]
+
 
 def collapse_list_to_string(string_list):
     # This is to join back together the text data into a single string
