@@ -1,6 +1,5 @@
 import tweepy
 import re
-import pandas as pd
 import cleanedFunction
 import json
 
@@ -20,7 +19,7 @@ accessTokenSecret = "zhn0bp4aKpXFKnAeF3ZHfkylIcoBYr46m5JlfK4TzDrgO"
 auth = tweepy.AppAuthHandler(consumerKey, consumerSecret)
 api = tweepy.API(auth)
 
-tweets = tweepy.Cursor(api.search_tweets, q='green pass', until='2021-12-02', lang='it', locale='it', tweet_mode='extended').items(1)
+tweets = tweepy.Cursor(api.search_tweets, q='green pass', until='2021-12-02', lang='it', locale='it', tweet_mode='extended').items(22)
 
 
 for tweet in tweets:
