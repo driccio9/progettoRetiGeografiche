@@ -4,12 +4,10 @@ import cleanedFunction
 import json
 
 all_tweet = []
-try:
-    f = open("alltweet.json", "r")
-    all_tweet = json.loads(f.read())
-    f.close()
-except Exception:
-    pass
+
+f = open("alltweet.json", "r")
+all_tweet = json.loads(f.read())
+f.close()
 
 consumerKey = "MWdBTvrB6X2B3ykmaZ98GdQBo"
 consumerSecret = "r26Ixa7suHNOjnmSy6IhmYR2buhzs2VkYZxPs5kdPMG0lqTKPG"
@@ -19,10 +17,12 @@ accessTokenSecret = "zhn0bp4aKpXFKnAeF3ZHfkylIcoBYr46m5JlfK4TzDrgO"
 auth = tweepy.AppAuthHandler(consumerKey, consumerSecret)
 api = tweepy.API(auth)
 
-tweets = tweepy.Cursor(api.search_tweets, q='green pass', until='2021-12-02', lang='it', locale='it', tweet_mode='extended').items(22)
+tweets = tweepy.Cursor(api.search_tweets, q='#greenpass OR #supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio', until='2021-11-27', lang='it', locale='it', tweet_mode='extended').items(430) #items(22)
 
+i = 0
 
 for tweet in tweets:
+    i += 1
     date = tweet.created_at.strftime("%Y-%m-%d")
     try:
         text = tweet.retweeted_status.full_text
@@ -30,8 +30,9 @@ for tweet in tweets:
         text = tweet.full_text
     all_tweet.append({'text': text, 'date': date})
 
-all_tweet = cleanedFunction.removeRedundance(all_tweet)
+#all_tweet = cleanedFunction.removeRedundance(all_tweet)
 print(all_tweet)
+print(i)
 f = open("alltweet.json", "w")
 f.write(json.dumps(all_tweet))
 f.close()
