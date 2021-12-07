@@ -33,12 +33,13 @@ safezone= False;
 
 
 def handler(signum, frame):
-    global all_tweet
-    all_tweet = cleanedFunction.removeRedundance(all_tweet)
-    f = open("alltweet.json", "w")
-    f.write(json.dumps(all_tweet))
-    f.close()
-    print('Ctrl+Z pressed')
+    if safezone:
+        global all_tweet
+        all_tweet = cleanedFunction.removeRedundance(all_tweet)
+        f = open("alltweet.json", "w")
+        f.write(json.dumps(all_tweet))
+        f.close()
+        print('Ctrl+Z pressed')
 
 
 signal.signal(signal.SIGTSTP, handler)
