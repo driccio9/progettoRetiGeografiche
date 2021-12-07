@@ -48,7 +48,7 @@ for tweet in all_tweet:
     text = tweet["text"]
     text = cleanedFunction.cleaned(text)
     text = cleanedFunction.remove_stopwords(text)
-    print(text)
+    #print(text)
 
     tweet_list.append(text)
     analysis = TextBlob(text)
