@@ -47,16 +47,20 @@ signal.signal(signal.SIGTSTP, handler)
 try:
     for tweet in tweets:
         i += 1
-        count += 100
+        count += 1
         date = tweet.created_at.strftime("%Y-%m-%d")
         try:
             text = tweet.retweeted_status.full_text
         except AttributeError:  # Not a Retweet
             text = tweet.full_text
-        if count == 100:
+        all_tweet.append({'text': text, 'date': date})
+        if count == 1000:
             print(i)
             count = 0
-        all_tweet.append({'text': text, 'date': date})
+            all_tweet = cleanedFunction.removeRedundance(all_tweet)
+            f = open("alltweet.json", "w")
+            f.write(json.dumps(all_tweet))
+            f.close()
         safezone = True
 except Exception:
     pass
