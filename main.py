@@ -1,7 +1,9 @@
+import signal
+
 import tweepy
-import re
 import cleanedFunction
 import json
+
 
 all_tweet = []
 
@@ -14,30 +16,56 @@ consumerSecret = "r26Ixa7suHNOjnmSy6IhmYR2buhzs2VkYZxPs5kdPMG0lqTKPG"
 accessToken = "1463101705462108163-M72tQuxp7FDGTtMUiD9YcLEcKkl0w7"
 accessTokenSecret = "zhn0bp4aKpXFKnAeF3ZHfkylIcoBYr46m5JlfK4TzDrgO"
 
-auth = tweepy.AppAuthHandler(consumerKey, consumerSecret)
-api = tweepy.API(auth)
+day = "01"
+month = "12"
 
-tweets = tweepy.Cursor(api.search_tweets, q='#greenpass OR #supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio', until='2021-11-27', lang='it', locale='it', tweet_mode='extended').items(430) #items(22)
+auth = tweepy.AppAuthHandler(consumerKey, consumerSecret)
+api = tweepy.API(auth, wait_on_rate_limit=True)
+
+tweets = tweepy.Cursor(api.search_tweets,
+                       q='#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio',
+                       until='2021-' + month + '-' + day, lang='it', locale='it', tweet_mode='extended').items(
+    8000)  # items(22)
 
 i = 0
-
-for tweet in tweets:
-    i += 1
-    date = tweet.created_at.strftime("%Y-%m-%d")
-    try:
-        text = tweet.retweeted_status.full_text
-    except AttributeError:  # Not a Retweet
-        text = tweet.full_text
-    all_tweet.append({'text': text, 'date': date})
-
-#all_tweet = cleanedFunction.removeRedundance(all_tweet)
-print(all_tweet)
-print(i)
-f = open("alltweet.json", "w")
-f.write(json.dumps(all_tweet))
-f.close()
+count = 0;
+safezone= False;
 
 
+def handler(signum, frame):
+    global all_tweet
+    all_tweet = cleanedFunction.removeRedundance(all_tweet)
+    f = open("alltweet.json", "w")
+    f.write(json.dumps(all_tweet))
+    f.close()
+    print('Ctrl+Z pressed')
+
+
+signal.signal(signal.SIGTSTP, handler)
+
+try:
+    for tweet in tweets:
+        i += 1
+        count += 100
+        date = tweet.created_at.strftime("%Y-%m-%d")
+        try:
+            text = tweet.retweeted_status.full_text
+        except AttributeError:  # Not a Retweet
+            text = tweet.full_text
+        if count == 100:
+            print(i)
+            count = 0
+        all_tweet.append({'text': text, 'date': date})
+        safezone = True
+except Exception:
+    pass
+finally:
+    all_tweet = cleanedFunction.removeRedundance(all_tweet)
+    f = open("alltweet.json", "w")
+    f.write(json.dumps(all_tweet))
+    f.close()
+
+# all_tweet = cleanedFunction.removeRedundance(all_tweet)
 
 
 """
