@@ -14,7 +14,7 @@ import cleanedFunction
 # Sentiment Analysis
 
 # Inserire qui il file da dare in pasto a Vader
-vaderInput = "sample.json"
+vaderInput = "alltweet.json"
 
 
 def percentage(part, whole):
@@ -67,10 +67,13 @@ f.close()
 noOfTweet = len(all_tweet)
 print(noOfTweet)
 i = 0
+count = 0
 
 for tweet in all_tweet:
-    print(i)
-    text = tweet["cleanedItalianText"]
+    if count == 1000:
+        print(str(noOfTweet) + "-" + str(i))
+        count = 0
+    text = tweet["text"]
     text = cleanedFunction.cleaned(text)
     text = cleanedFunction.remove_stopwords(text)
     # print(text)
@@ -95,6 +98,7 @@ for tweet in all_tweet:
         neutral += 1
 
     i += 1
+    count += 1
 
 positive = percentage(positive, noOfTweet)
 negative = percentage(negative, noOfTweet)
@@ -116,4 +120,4 @@ print("negative number: ", len(negative_list))
 print("neutral number: ", len(neutral_list))
 
 createPieChart(positive, neutral, negative)
-#WIP - create_wordcloud(tweet_list["text"].values)
+# WIP - create_wordcloud(tweet_list["text"].values)
