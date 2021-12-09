@@ -5,7 +5,6 @@ import cleanedFunction
 import json
 
 all_tweet = []
-
 f = open("alltweet.json", "r")
 all_tweet = json.loads(f.read())
 f.close()
