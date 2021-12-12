@@ -21,11 +21,16 @@ words = ["#greenpass (salvini OR lega)", "#greenpass (meloni OR fdi OR fratellid
          "#greenpass (m5s OR dimaio OR conte OR maio)", "#greenpass (renzi OR italiaviva)",
          "#greenpass (berlusconi OR forzaitalia)", "#greenpass (bersani OR articolouno)", "#greenpass (letta OR pd)"]
 
-day = 5
+from datetime import date
+
+today = date.today()
+d1 = today.strftime("%d")
+print(d1)
+day = int(d1)-7
 
 auth = tweepy.AppAuthHandler(consumerKey, consumerSecret)
 api = tweepy.API(auth, wait_on_rate_limit=True)
-word = 0
+word = 6
 
 while True:
     fileopen = words[word] + ".json"
@@ -72,7 +77,7 @@ while True:
         f.close()
         print(str(i) + " saved " + str(day) + "-" + str(word))
 
-    if day < 13:
+    if day < int(d1):
         day += 1
         print(day)
     else:
