@@ -17,9 +17,15 @@ accessToken = "1463101705462108163-M72tQuxp7FDGTtMUiD9YcLEcKkl0w7"
 accessTokenSecret = "zhn0bp4aKpXFKnAeF3ZHfkylIcoBYr46m5JlfK4TzDrgO"
 safezone = False
 
-words = ["#greenpass (salvini OR lega)", "#greenpass (meloni OR fdi OR fratellidiitalia)",
-         "#greenpass (m5s OR dimaio OR conte OR maio)", "#greenpass (renzi OR italiaviva)",
-         "#greenpass (berlusconi OR forzaitalia)", "#greenpass (bersani OR articolouno)", "#greenpass (letta OR pd)"]
+words = [
+    "(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (salvini OR lega)",
+    "(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (meloni OR fdi OR fratellidiitalia)",
+    "(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (m5s OR dimaio OR conte OR maio)",
+    "(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (renzi OR italiaviva)",
+    "(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (berlusconi OR forzaitalia)",
+    "(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (bersani OR articolouno)",
+    "(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (letta OR pd)"
+]
 
 from datetime import date
 
@@ -42,10 +48,13 @@ while True:
     except IOError:
         pass
 
-    tweets = tweepy.Cursor(api.search_tweets,
-                           q=words[word],
-                           until='2021-12' + '-' + str(day), lang='it', locale='it', tweet_mode='extended').items(
-        70000)  # items(22)
+    tweets = tweepy.Cursor(
+        api.search_tweets,
+        q=words[word],
+        until='2021-12' + '-' + str(day),
+        lang='it',
+        locale='it',
+        tweet_mode='extended').items(70000)  # items(22)
 
     i = 0
     count = 0

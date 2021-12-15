@@ -3,8 +3,8 @@ import html
 import deepl
 import nltk
 
-nltk.download('punkt')
-nltk.download('stopwords')
+#nltk.download('punkt')
+#nltk.download('stopwords')
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 
@@ -44,7 +44,6 @@ def translate(text: str):
 
 def regexSentTokenize(text: str):
     return re.split(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s", text)
-
 
 def nltkSentTokenize(text : str):
     return nltk.sent_tokenize(text)
