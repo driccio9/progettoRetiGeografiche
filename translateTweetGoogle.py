@@ -1,41 +1,20 @@
+import time
 import pandas as pd
 from googletrans import Translator
 
 input = "alltweet.json"
-import json
+output = "translatedAllTweet.json"
 
-all_tweet = []
-f = open(input, "r")
-all_tweet = json.loads(f.read())
-f.close()
+df = pd.read_json(r'alltweet.json', date_unit='s')
+df.drop_duplicates(subset=['text', 'date'], keep='first', inplace=True)
 
-# carica il file json e rimuove i duplicati
-i = 1000
-j = 0
-while i <= range(len(all_tweet)):
-    df = pd.read_json(r'alltweet.json', date_unit='s')[j:i]
+translator = Translator()
 
-    df.drop_duplicates(subset=['text', 'date'], keep='first', inplace=True)
+try:
+    df['text'] = df['text'].map(lambda x: translator.translate(x, dest='en', src='it').text)
+finally:
+    df.to_json(output, orient='records')
 
-    translator = Translator()
-
-    print("traduco...")
-
-    results = translator.translate(df['text'].values.tolist(), dest='en', src='it')
-    df['text'] = pd.DataFrame(results)
-    df['text'] = df.text.map(lambda x: x.text)
-
-    df.to_json('translatedAllTweet.json', orient='records')
-    #vedere come redendere il to json in append mode (quindi senza cancellare il precedente contenuto)
-    j = i
-    i += 1000
-
-
-""" 
-#rimuove i duplicati
-df.drop_duplicates(subset='text', keep='first', inplace=True)
-
-df.rename(columns={'text': 'originalText'}, inplace=True)
 
 df['cleanedItalianText'] = df.originalText.map(cleaned)
 

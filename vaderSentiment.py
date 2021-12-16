@@ -1,41 +1,23 @@
 import json
 
 import matplotlib.pyplot as plt
-import numpy as np
+import nltk
 import pandas as pd
-from PIL import Image
-from Tools.scripts.dutree import display
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from textblob import TextBlob
-from wordcloud import WordCloud, STOPWORDS
-
 import cleanedFunction
+
+nltk.download('vader_lexicon')
 
 # Sentiment Analysis
 
 # Inserire qui il file da dare in pasto a Vader
-vaderInput = "alltweet.json"
+vaderInput = "translate.json"
+# Inserire qui il file che deve dare in ouput Vader
+vaderOutput = "alltweetSentiment.json"
 
 
 def percentage(part, whole):
     return 100 * float(part) / float(whole)
-
-
-# Function to Create Wordcloud
-def create_wordcloud(text):
-    mask = np.array(Image.open("cloud.png"))
-    stopwords = set(STOPWORDS)
-    wc = WordCloud(background_color="white",
-                   mask=mask,
-                   max_words=3000,
-                   stopwords=stopwords,
-                   repeat=True
-                   )
-    wc.generate(str(text))
-    wc.to_file("wc.png")
-    print("Word Cloud Saved Successfully")
-    path = "wc.png"
-    display(Image.open(path))
 
 
 # Creating PieCart
@@ -60,6 +42,9 @@ tweet_list = []
 neutral_list = []
 negative_list = []
 positive_list = []
+sentimet_tweet = []
+
+
 f = open(vaderInput, "r")
 all_tweet = json.loads(f.read())
 f.close()
@@ -79,13 +64,14 @@ for tweet in all_tweet:
     # print(text)
 
     tweet_list.append(text)
-    analysis = TextBlob(text)
     score = SentimentIntensityAnalyzer().polarity_scores(text)
     neg = score['neg']
     neu = score['neu']
     pos = score['pos']
     comp = score['compound']
-    polarity += analysis.sentiment.polarity
+
+    sentimet_tweet.append(
+        {'text': tweet["text"], 'date': tweet["date"], 'negative': neg, 'positive': pos, 'neutral': neu, 'compound': comp})
 
     if neg > pos:
         negative_list.append(text)
@@ -120,4 +106,7 @@ print("negative number: ", len(negative_list))
 print("neutral number: ", len(neutral_list))
 
 createPieChart(positive, neutral, negative)
-# WIP - create_wordcloud(tweet_list["text"].values)
+
+f = open(vaderOutput, "w")
+f.write(json.dumps(sentimet_tweet))
+f.close()

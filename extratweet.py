@@ -17,6 +17,7 @@ accessToken = "1463101705462108163-M72tQuxp7FDGTtMUiD9YcLEcKkl0w7"
 accessTokenSecret = "zhn0bp4aKpXFKnAeF3ZHfkylIcoBYr46m5JlfK4TzDrgO"
 safezone = False
 
+
 words = [
     "(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (salvini OR lega)",
     "(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (meloni OR fdi OR fratellidiitalia)",
@@ -27,6 +28,7 @@ words = [
     "(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (letta OR pd)"
 ]
 
+
 from datetime import date
 
 today = date.today()
@@ -36,7 +38,7 @@ day = int(d1)-7
 
 auth = tweepy.AppAuthHandler(consumerKey, consumerSecret)
 api = tweepy.API(auth, wait_on_rate_limit=True)
-word = 6
+word = 0
 
 while True:
     fileopen = words[word] + ".json"
@@ -93,7 +95,7 @@ while True:
         day = 1
         word += 1
         print(str(word) + "\n")
-        if word >= 6:
+        if word >= len(words):
             print(str(word) + "end")
             break
 

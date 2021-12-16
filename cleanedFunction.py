@@ -29,7 +29,7 @@ def collapse_list_to_string(string_list):
 
 def remove_stopwords(text_data: str):
     text_tokens = word_tokenize(text_data)
-    tokens_without_sw = [word for word in text_tokens if not word in stopwords.words('italian')]
+    tokens_without_sw = [word for word in text_tokens if not word in stopwords.words()]
     return collapse_list_to_string(tokens_without_sw)
 
 
