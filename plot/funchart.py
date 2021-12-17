@@ -1,38 +1,46 @@
 import matplotlib.pyplot as plt
-
-# line 1 points
-x1 = ['2021-12-06','2021-12-07','2021-12-09']
-y1 = [2, 4, 1]
+import pandas as pd
+import numpy as np
 
 
-# plotting the line 1 points
-plt.plot(x1, y1, label="Sentimento 1")
+def funchartT2E(jsonFile):
+    df = pd.read_json(jsonFile, convert_dates=False)
+    days = df['date'].drop_duplicates(keep='first', inplace=False).values
+
+    sentimentMeanList = []
+    for day in days:
+        sentimentMean = df[df['date'] == day][['Happy', 'Angry', 'Surprise', 'Sad', 'Fear']].mean(axis=0)
+        sentimentMean = sentimentMean / np.linalg.norm(sentimentMean, ord=1)
+        sentimentMeanList.append(sentimentMean)
+
+    sentimentMeanMatrix = np.array(sentimentMeanList)
+
+    labels = ('Happy', 'Angry', 'Surprise', 'Sad', 'Fear')
+
+    for i in range(0, sentimentMeanMatrix.shape[1]):
+        plt.plot(days, sentimentMeanMatrix[:,i], label=labels[i])
 
 
+    ax = plt.gca()
+    ax.tick_params(axis='x', labelrotation=45)
+    plt.yticks(np.arange(0, 1, 0.05))
+
+    # naming the x axis
+    plt.xlabel('day')
+    # naming the y axis
+    plt.ylabel('sentiment mean')
+    # giving a title to my graph
+    plt.title('sentiment day by day')
+
+    # show a legend on the plot
+    plt.legend()
+
+    # function to show the plot
+    plt.show()
 
 
-# line 2 points
-y2=[2,1,3]
+prefix = '..\\sample\\'
+postfix = ''
+input = r'T2E_(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (salvini OR lega).json'
 
-# plotting the line 2 points
-plt.plot(x1, y2, label="Sentimento 2")
-
-# line 3 points
-y3=[1,3,4]
-
-# plotting the line 3 points
-plt.plot(x1, y3, label="Sentimento 3")
-
-
-# naming the x axis
-plt.xlabel('Data')
-# naming the y axis
-plt.ylabel('Valutazione')
-# giving a title to my graph
-plt.title('Two lines on same graph!')
-
-# show a legend on the plot
-plt.legend()
-
-# function to show the plot
-plt.show()
+funchartT2E(prefix+input+postfix)

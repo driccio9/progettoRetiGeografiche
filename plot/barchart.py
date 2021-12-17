@@ -31,7 +31,7 @@ def barchartText2Emotion():
         words[i] = prefix + words[i] + postfix
 
         #recupero per ogni partito politico il vettore della media dei sentimenti
-        meanVector = pd.read_json(words[i],  convert_dates=False).mean(axis=0)
+        meanVector = pd.read_json(words[i],  convert_dates=False)[['Happy', 'Angry', 'Surprise', 'Sad', 'Fear']].mean(axis=0)
 
         #normalizzo il vettore
         meanVector = meanVector / np.linalg.norm(meanVector, ord=1)
