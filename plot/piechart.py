@@ -15,6 +15,6 @@ def pieChartText2Emotion(dataFrame : pd.DataFrame):
     plt.show()
 
 #Prova#########
-df = pd.read_json(r'..\sample\text2emotionAllTweet.json', date_unit='s')
+df = pd.read_json(r'..\sample\text2emotionAllTweet.json', convert_dates=False)
 pieChartText2Emotion(df)
 ###############
