@@ -45,8 +45,10 @@ def translate(text: str):
 def regexSentTokenize(text: str):
     return re.split(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s", text)
 
-def nltkSentTokenize(text : str):
+
+def nltkSentTokenize(text: str):
     return nltk.sent_tokenize(text)
+
 
 def removeRedundance(l: list):
         return [dict(t) for t in {tuple(d.items()) for d in l}]

@@ -26,15 +26,16 @@ def remove_links(text):
     import re
     return re.sub(r"http\S+", "", text)
 
+
 def style_text(text:str):
     # Convert to lowercase
     return text.lower()
 
 
-
 def collapse_list_to_string(string_list):
     # This is to join back together the text data into a single string
     return ' '.join(string_list)
+
 
 def remove_apostrophes(text):
     # Remove any apostrophes as these are irrelavent in our word cloud
