@@ -25,42 +25,40 @@ def barchartText2Emotion():
         "PD"
     )
 
-    meanVectors = []
+    sentimentMeanList = []
 
     for i in range(0, len(words)):
         words[i] = prefix + words[i] + postfix
 
         #recupero per ogni partito politico il vettore della media dei sentimenti
-        meanVector = pd.read_json(words[i],  convert_dates=False)[['Happy', 'Angry', 'Surprise', 'Sad', 'Fear']].mean(axis=0)
+        sentimentMean = pd.read_json(words[i],  convert_dates=False)[['Happy', 'Angry', 'Surprise', 'Sad', 'Fear']].mean(axis=0)
 
         #normalizzo il vettore
-        meanVector = meanVector / np.linalg.norm(meanVector, ord=1)
+        sentimentMean = sentimentMean / np.linalg.norm(sentimentMean, ord=1)
 
-        meanVectors.append(meanVector*100)
+        sentimentMeanList.append(sentimentMean*100)
 
 
-    meanMatrix = np.array(meanVectors)
-    meanMatrix = meanMatrix.transpose()
-    cumSum = meanMatrix.cumsum(axis=0)
-
-    N = 7
-    ind = np.arange(N)
-    width = 0.35
+    sentimentMeanMatrix = np.array(sentimentMeanList)
 
     fig = plt.subplots(figsize=(10, 7))
     plt.grid(color='green', linestyle='--', linewidth=0.5, axis='y')
-    p1 = plt.bar(ind, meanMatrix[0], width)
-    p2 = plt.bar(ind, meanMatrix[1], width, bottom=cumSum[0])
-    p3 = plt.bar(ind, meanMatrix[2], width, bottom=cumSum[1])
-    p4 = plt.bar(ind, meanMatrix[3], width, bottom=cumSum[2])
-    p5 = plt.bar(ind, meanMatrix[4], width, bottom=cumSum[3])
+
+    ind = np.arange(7)
+    width = 0.35
+    p = []
+    cumSum = sentimentMeanMatrix.cumsum(axis=1)
+    p.append(plt.bar(ind, sentimentMeanMatrix[:, 0], width))
+
+    for i in range(1, sentimentMeanMatrix.shape[1]):
+        p.append(plt.bar(ind, sentimentMeanMatrix[:, i], width, bottom=cumSum[:, i-1]))
 
     plt.ylabel('emotions %')
     plt.title('emotions by political party')
     plt.xticks(ind, labels)
     plt.yticks(np.arange(0, 105, 5))
-    plt.legend((p1[0], p2[0], p3[0], p4[0], p5[0]), ('happy', 'angry', 'surprise', 'sad', 'fear'))
 
+    plt.legend((p[0][0], p[1][0], p[2][0], p[3][0], p[4][0]), ('happy', 'angry', 'surprise', 'sad', 'fear'))
     plt.show()
 
 barchartText2Emotion()
