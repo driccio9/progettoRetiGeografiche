@@ -26,16 +26,16 @@ def handler(signum, frame):
         print('Ctrl+Z pressed')
 
 
-signal.signal(signal.SIGTERM, handler)
+signal.signal(signal.SIGINT, handler)
 
-day = "09"
+day = "18"
 month = "12"
 
 auth = tweepy.AppAuthHandler(consumerKey, consumerSecret)
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
 tweets = tweepy.Cursor(api.search_tweets,
-                       q='#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio',
+                       q='#greenpass OR #supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio',
                        until='2021-' + month + '-' + day, lang='it', locale='it', tweet_mode='extended').items(
     100000)  # items(22)
 
