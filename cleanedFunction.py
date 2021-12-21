@@ -42,18 +42,46 @@ def translate(text: str):
     return result.text
 
 
-def regexSentTokenize(text: str):
+def regexSentenceSplit(text: str):
     return re.split(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s", text)
 
 
-def nltkSentTokenize(text: str):
+def nltkSentenceSplit(text: str):
     return nltk.sent_tokenize(text)
 
 
 def removeRedundance(l: list):
-        return [dict(t) for t in {tuple(d.items()) for d in l}]
+    return [dict(t) for t in {tuple(d.items()) for d in l}]
 
 
+# NltkSplit -> cleaned
+def preProcessingPathway_1(text:str):
+    sentences = nltkSentenceSplit(text)
+    for i in range(0, len(sentences)):
+        sentences[i] = cleaned(sentences)
+    return sentences
 
 
+# RegexSplit -> cleaned
+def preProcessingPathway_2(text:str):
+    sentences = regexSentenceSplit(text)
+    for i in range(0, len(sentences)):
+        sentences[i] = cleaned(sentences)
+    return sentences
 
+
+# cleaned
+def preProcessingPathway_3(text:str):
+    return cleaned(text)
+
+
+# cleaned -> NltkSplit
+def preProcessingPathway_4(text:str):
+    cleanedText = cleaned(text)
+    return nltkSentenceSplit(cleanedText)
+
+
+# cleaned -> RegexSplit
+def preProcessingPathway_5(text:str):
+    cleanedText = cleaned(text)
+    return regexSentenceSplit(text)

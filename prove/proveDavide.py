@@ -12,6 +12,9 @@ x = translator.translate(x, dest='en', src='it').text
 print(x)
 print(cleaned(x))
 """
+prefix = '..\\sample\\VADER_'
+input = r'(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (salvini OR lega).json'
 
+funchartVader(prefix+input)
 
 
