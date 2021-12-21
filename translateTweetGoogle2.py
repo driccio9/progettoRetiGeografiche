@@ -1,6 +1,5 @@
 import json
 import time
-
 import cleanedFunction
 from googletrans import Translator
 
@@ -28,7 +27,8 @@ count = 0
 print(i)
 while i < len(all_tweet):
     try:
-        results = translator.translate(all_tweet[i]["text"], dest='en', src='it')
+        cleanedText = cleanedFunction.cleaned(all_tweet[i]['text'])
+        results = translator.translate(cleanedText, dest='en', src='it')
         tweet_translate.append({'text': results.text, 'date': all_tweet[i]["date"]})
         i += 1
         count += 1
