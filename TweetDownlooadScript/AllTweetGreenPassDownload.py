@@ -1,10 +1,11 @@
 import json
 import signal
-
 import tweepy
 
+alltweetjsonfilepath = "../Tweet/alltweet.json"
+
 all_tweet = []
-f = open("Tweet/alltweet.json", "r")
+f = open(alltweetjsonfilepath, "r")
 all_tweet = json.loads(f.read())
 f.close()
 
@@ -18,7 +19,8 @@ safezone = False
 def handler(signum, frame):
     if safezone:
         global all_tweet
-        f = open("../alltweet.json", "w")
+        global alltweetjsonfilepath
+        f = open(alltweetjsonfilepath, "w")
         f.write(json.dumps(all_tweet))
         f.close()
         print('Ctrl+Z pressed')
@@ -53,13 +55,13 @@ try:
         if count == 1000:
             print(i)
             count = 0
-            f = open("../alltweet.json", "w")
+            f = open(alltweetjsonfilepath, "w")
             f.write(json.dumps(all_tweet))
             f.close()
         safezone = True
 except Exception:
     pass
 finally:
-    f = open("../alltweet.json", "w")
+    f = open(alltweetjsonfilepath, "w")
     f.write(json.dumps(all_tweet))
     f.close()
