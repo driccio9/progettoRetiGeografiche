@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def barchartText2Emotion():
+def barchartText2Emotion(title='emotions by political party'):
     prefix = r"..\sample\T2E_"
     postfix = ".json"
     words = [
@@ -55,7 +55,7 @@ def barchartText2Emotion():
         p.append(plt.bar(ind, sentimentMeanMatrix[:, i], width, bottom=cumSum[:, i-1]))
 
     plt.ylabel('emotions %')
-    plt.title('emotions by political party')
+    plt.title(title)
     plt.xticks(ind, labels)
     plt.yticks(np.arange(0, 105, 5))
 
@@ -63,7 +63,7 @@ def barchartText2Emotion():
     plt.show()
 
 
-def barchartVader():
+def barchartVader(title='emotions by political party'):
     prefix = r"..\sample\VADER_"
     postfix = ".json"
     words = [
@@ -117,7 +117,7 @@ def barchartVader():
         p.append(plt.bar(ind, sentimentMeanMatrix[:, i], width, bottom=cumSum[:, i-1]))
 
     plt.ylabel('sentiment %')
-    plt.title('sentiment by political party (VADER)')
+    plt.title(title)
     plt.xticks(ind, labels)
     plt.yticks(np.arange(0, 105, 5))
 

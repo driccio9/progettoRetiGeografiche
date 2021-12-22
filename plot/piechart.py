@@ -25,11 +25,19 @@ def pieChartVader(inputJson, title="Vader Result"):
     plt.show()
 
 
+def pieChartTextBlob(inputJson, title="Vader Result"):
+    df = pd.read_json(inputJson, convert_dates=False)
 
-#Prova#########
-prefix = '..\\sample\\VADER_'
-input = r'(#supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (salvini OR lega).json'
+    positive = (df[df['polarity'>0]].shape[0]/df.shape[0])*100
+    neutral = (df[df['polarity' == 0]].shape[0]/df.shape[0])*100
+    negative = (df[df['polarity'<0]].shape[0]/df.shape[0])*100
 
-pieChartVader(prefix+input)
-###############
+    values = [positive, neutral, negative]
+    labels = ['positive', 'neutral', 'negative']
+    patches, texts, junk = plt.pie(values, labels=labels, startangle=90, autopct='%.2f')
+    plt.style.use('default')
+    plt.title(title)
+    plt.axis('equal')
+    plt.show()
+
 
