@@ -1,12 +1,10 @@
 import json
-
 from textblob import TextBlob
-
 from FunctionForCleaning.cleanedFunction import *
 
 
-def textBlobSentiment(inPathFile, outPathFile, mode='nltk'):
-    valid = {'nltk', 'regex'}
+def textBlobSentiment(inPathFile, outPathFile, mode='none'):
+    valid = {'nltk', 'regex', 'none'}
     if mode not in valid:
         raise ValueError("mode must be one of %r." % valid)
 
@@ -23,40 +21,55 @@ def textBlobSentiment(inPathFile, outPathFile, mode='nltk'):
     positive_list = []
     noOfTweet = len(inTweetList)
 
-    print("processo...")
-    for sentence in inTweetList:
-        if mode == 'nltk':
-            sentenceList = nltkSentenceSplit(sentence['text'])
+    #nel caso in cui lo splitting non sia necessario
+    if mode == 'none':
+        for tweet in inTweetList:
+            analysis = TextBlob(remove_stopwords(tweet['text']))
+            textblobresult.append(
+                {
+                    'text': tweet['text'],
+                    'date': tweet['date'],
+                    'polarity': analysis.sentiment[0],
+                    'subjectivity': analysis.sentiment[1]
+                }
+            )
+    else:
 
-        if mode == 'regex':
-            sentenceList = regexSentenceSplit(sentence['text'])
+        print("processo...")
+        for sentence in inTweetList:
 
-        polarity = 0
-        sentiment =0
-        for text in sentenceList:
-            analysis = TextBlob(text)
-            polarity += analysis.sentiment[0] / len(sentenceList)
-            sentiment += analysis.sentiment[1] / len(sentenceList)
+            if mode == 'nltk':
+                sentenceList = nltkSentenceSplit(sentence['text'])
 
-        textblobresult.append({'text': sentence["text"], 'date': sentence["date"], 'polarity': polarity, 'subjectivity': sentiment})
+            if mode == 'regex':
+                sentenceList = regexSentenceSplit(sentence['text'])
 
-        if polarity > 0:
-            positive_list.append(text)
-            positive += 1
-        elif polarity < 0:
-            negative_list.append(text)
-            negative += 1
-        else:
-            neutral_list.append(text)
-            neutral += 1
+            polarity = 0
+            sentiment = 0
+            for text in sentenceList:
+                analysis = TextBlob(remove_stopwords(text))
+                polarity += analysis.sentiment[0] / len(sentenceList)
+                sentiment += analysis.sentiment[1] / len(sentenceList)
 
-    print("===INFO TEXT BLOB RESULT===")
+            textblobresult.append({'text': sentence["text"], 'date': sentence["date"], 'polarity': polarity, 'subjectivity': sentiment})
 
-    print("total number: ", noOfTweet)
-    print("positive number: ", len(positive_list))
-    print("negative number: ", len(negative_list))
-    print("neutral number: ", len(neutral_list))
-    print("==========")
+            if polarity > 0:
+                positive_list.append(text)
+                positive += 1
+            elif polarity < 0:
+                negative_list.append(text)
+                negative += 1
+            else:
+                neutral_list.append(text)
+                neutral += 1
+
+        print("===INFO TEXT BLOB RESULT===")
+
+        print("total number: ", noOfTweet)
+        print("positive number: ", len(positive_list))
+        print("negative number: ", len(negative_list))
+        print("neutral number: ", len(neutral_list))
+        print("==========")
 
     f = open(outPathFile, "w")
     f.write(json.dumps(textblobresult))
