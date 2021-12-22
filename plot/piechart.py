@@ -14,7 +14,7 @@ def pieChartText2Emotion(inputJson, title="Text to Emotion Result"):
     plt.show()
 
 
-def pieChartVader(inputJson, title="Vader Result"):
+def pieChartVader(inputJson, title="Vader"):
     dataFrame = pd.read_json(inputJson, convert_dates=False)
     mean = dataFrame[['negative', 'positive', 'neutral']].mean(axis=0)
     labels = ['negative', 'positive', 'neutral']
@@ -25,12 +25,12 @@ def pieChartVader(inputJson, title="Vader Result"):
     plt.show()
 
 
-def pieChartTextBlob(inputJson, title="Vader Result"):
+def pieChartTextBlob(inputJson, title="Text blob"):
     df = pd.read_json(inputJson, convert_dates=False)
 
-    positive = (df[df['polarity'>0]].shape[0]/df.shape[0])*100
-    neutral = (df[df['polarity' == 0]].shape[0]/df.shape[0])*100
-    negative = (df[df['polarity'<0]].shape[0]/df.shape[0])*100
+    positive = (df[df['polarity'] > 0].shape[0]/df.shape[0])*100
+    neutral = (df[df['polarity'] == 0].shape[0]/df.shape[0])*100
+    negative = (df[df['polarity'] < 0].shape[0]/df.shape[0])*100
 
     values = [positive, neutral, negative]
     labels = ['positive', 'neutral', 'negative']
