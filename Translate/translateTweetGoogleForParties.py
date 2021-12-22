@@ -36,7 +36,7 @@ for filepath in words:
         tweet_translate = []
     i = len(tweet_translate)
     count = 0
-    print(str(i) + "-" + len(all_tweet))
+    print(str(i) + "-" + str(len(all_tweet)))
     print("traduco...")
     while i < len(all_tweet):
         try:
