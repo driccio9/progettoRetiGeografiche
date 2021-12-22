@@ -5,7 +5,7 @@ from googletrans import Translator
 
 from FunctionForCleaning.cleanedFunction import *
 
-input = "../alltweet.json"
+input = "../Tweet/alltweet.json"
 output = "../Tweet/allTweetTranslate.json"
 
 all_tweet = []
