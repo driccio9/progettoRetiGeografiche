@@ -8,18 +8,19 @@ from FunctionForCleaning.cleanedFunction import *
 
 
 #il testo deve essere tradotto in linugua inglese
-def text2emotion(dataFrame:pd.DataFrame, outPathFile):
-    emotions = dataFrame['text'].map(te.get_emotion).tolist()
-    dataFrame = pd.concat([dataFrame, pd.DataFrame(emotions)], axis=1)
-    dataFrame.to_json(outPathFile, orient='records')
+def text2emotion(inputJson, outputJson):
+    df = pd.read_json(inputJson, convert_dates=False)
+    emotions = df['text'].map(remove_stopwords).map(te.get_emotion).tolist()
+    dataFrame = pd.concat([df, pd.DataFrame(emotions)], axis=1)
+    dataFrame.to_json(outputJson, orient='records')
 
 
-def text2emotionSentence(inPathFile, outPathFile, mode='nltk'):
+def text2emotionSentence(inputJson, outputJson, mode:str):
     valid = {'nltk', 'regex'}
     if mode not in valid:
         raise ValueError("mode must be one of %r." % valid)
 
-    f = open(inPathFile, "r")
+    f = open(inputJson, "r")
     inTweetList = json.loads(f.read())
     f.close()
 
@@ -28,12 +29,17 @@ def text2emotionSentence(inPathFile, outPathFile, mode='nltk'):
 
         if mode == 'nltk':
             sentenceList = nltkSentenceSplit(tweet['text'])
+        else:
+            sentenceList = regexSentenceSplit(tweet['text'])
 
         emotion = np.zeros(5)
         for sentence in sentenceList:
             emotion += np.array(list(te.get_emotion(remove_stopwords(sentence)).values())) / len(sentenceList)
 
-        emotion /= np.linalg.norm(emotion, ord=1)
+        norm = np.linalg.norm(emotion, ord=1)
+
+        if norm != 0:
+            emotion /= np.linalg.norm(emotion, ord=1)
 
         outTweetList.append(
             {
@@ -47,8 +53,7 @@ def text2emotionSentence(inPathFile, outPathFile, mode='nltk'):
             }
         )
 
-
-    f = open(outPathFile, "w")
+    f = open(outputJson, "w")
     f.write(json.dumps(outTweetList))
     f.close()
 
