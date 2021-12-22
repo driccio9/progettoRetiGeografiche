@@ -54,34 +54,34 @@ def removeRedundance(l: list):
     return [dict(t) for t in {tuple(d.items()) for d in l}]
 
 
-# NltkSplit -> cleaned
 def preProcessingPathway_1(text:str):
+    """ NltkSplit -> cleaned """
     sentences = nltkSentenceSplit(text)
     for i in range(0, len(sentences)):
-        sentences[i] = cleaned(sentences)
+        sentences[i] = cleaned(sentences[i])
     return sentences
 
 
-# RegexSplit -> cleaned
 def preProcessingPathway_2(text:str):
+    """ RegexSplit -> cleaned """
     sentences = regexSentenceSplit(text)
     for i in range(0, len(sentences)):
-        sentences[i] = cleaned(sentences)
+        sentences[i] = cleaned(sentences[i])
     return sentences
 
 
-# cleaned
 def preProcessingPathway_3(text:str):
+    """ cleaned """
     return cleaned(text)
 
 
-# cleaned -> NltkSplit
 def preProcessingPathway_4(text:str):
+    """ cleaned -> NltkSplit """
     cleanedText = cleaned(text)
     return nltkSentenceSplit(cleanedText)
 
 
-# cleaned -> RegexSplit
 def preProcessingPathway_5(text:str):
+    """ cleaned -> RegexSplit """
     cleanedText = cleaned(text)
     return regexSentenceSplit(text)
