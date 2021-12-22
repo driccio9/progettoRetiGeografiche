@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import nltk
 import pandas as pd
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-import cleanedFunction
 
 nltk.download('vader_lexicon')
 

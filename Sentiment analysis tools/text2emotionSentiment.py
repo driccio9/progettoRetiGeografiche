@@ -1,8 +1,10 @@
-import text2emotion as te
-import pandas as pd
 import json
-from cleanedFunction import *
+
 import numpy as np
+import pandas as pd
+import text2emotion as te
+
+from FunctionForCleaning.cleanedFunction import *
 
 
 #il testo deve essere tradotto in linugua inglese

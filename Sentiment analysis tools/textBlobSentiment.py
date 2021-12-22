@@ -1,6 +1,6 @@
-from textblob import TextBlob
 import json
-import pandas as pd
+
+from textblob import TextBlob
 
 from vaderSentiment import percentage
 
