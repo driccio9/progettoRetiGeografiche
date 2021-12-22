@@ -1,6 +1,6 @@
 import pandas as pd
 from googletrans import Translator
-from cleanedFunction import cleaned, remove_stopwords
+from FunctionForCleaning.cleanedFunction import cleaned, remove_stopwords
 
 def translateByPoliticalParty():
     words = [
