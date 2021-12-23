@@ -59,7 +59,7 @@ def barchartVader(inputJsonList, labels, title, outputFile='none', show=False):
         #recupero per ogni partito politico il vettore della media dei sentimenti
         sentimentMean = pd.read_json(inputJsonList[i],  convert_dates=False)[['negative', 'positive', 'neutral']].mean(axis=0)
 
-        #sentimentMean = sentimentMean / np.linalg.norm(sentimentMean, ord=1)
+        sentimentMean = sentimentMean / np.linalg.norm(sentimentMean, ord=1)
 
         sentimentMeanList.append(sentimentMean*100)
 

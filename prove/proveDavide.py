@@ -36,14 +36,15 @@ labels = (
     "PD"
 )
 
-prefix = 'sample/TB_NLTK_'
+prefix = 'sample/VADER_'
 postfix = '.json'
 outPrefix = 'sample/'
 
-
 inputJsonList = []
+inputLabel = []
+for word in words:
+    inputJsonList.append(prefix+word+postfix)
 
-for i in range(0,len(words)):
-    inputJsonList.append(prefix + words[i] + postfix)
+#funchartTextBlob(inputJsonList,labels,"polarity by political party",show=True)
+funchartVader(inputJsonList,labels,"polarity by political party",show=True)
 
-barchartTextBlob(inputJsonList, labels, "img/prova.png", show=True)

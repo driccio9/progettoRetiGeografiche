@@ -1,4 +1,5 @@
 from barchart import *
+from funchart import *
 
 dirInput ="SentimentAnalysisToolsOutput/" #"../Tweet/"
 dirOutput = "img/"
@@ -6,6 +7,7 @@ dirOutput = "img/"
 prefixList = ["T2E_", "TB_", "VADER_"]
 modeList = ["none", "nltk", "regex"]
 barchartFunList = [barchartText2Emotion, barchartTextBlob, barchartVader]
+funchartFunList = [funchartT2E, funchartTextBlob, funchartVader]
 
 postfixInput = ".json"
 postfixOutput = ".png"
@@ -43,4 +45,19 @@ for analysisToolIndex in range(0,len(barchartFunList)):
             labels,
             prefixList[analysisToolIndex] + modeList[modeIndex],
             dirOutput + 'barchart_' +prefixList[analysisToolIndex] + modeList[modeIndex]
+        )
+
+
+for analysisToolIndex in range(1,len(funchartFunList)):
+    for modeIndex in range(0, len(modeList)):
+
+        inputJsonList = []
+        for word in words:
+            inputJsonList.append(dirInput + prefixList[analysisToolIndex] + modeList[modeIndex] + '_' + word + postfixInput)
+
+        funchartFunList[analysisToolIndex](
+            inputJsonList,
+            labels,
+            prefixList[analysisToolIndex] + modeList[modeIndex],
+            dirOutput + 'funchart_' +prefixList[analysisToolIndex] + modeList[modeIndex]
         )
