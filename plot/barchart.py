@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def barchartText2Emotion(inputJsonList, labels, title='emotions by political party'):
+def barchartText2Emotion(inputJsonList, labels, title, outputFile='none', show=False):
 
     sentimentMeanList = []
 
@@ -43,10 +43,15 @@ def barchartText2Emotion(inputJsonList, labels, title='emotions by political par
     plt.yticks(np.arange(0, 105, 5))
 
     plt.legend(rectList, ('happy', 'angry', 'surprise', 'sad', 'fear'))
-    plt.show()
+
+    if outputFile != 'none':
+        plt.savefig(outputFile)
+    if show:
+        plt.show()
+    plt.close()
 
 
-def barchartVader(inputJsonList="none", labels="none", title='emotions by political party'):
+def barchartVader(inputJsonList, labels, title, outputFile='none', show=False):
 
     sentimentMeanList = []
     for i in range(0, len(inputJsonList)):
@@ -85,11 +90,15 @@ def barchartVader(inputJsonList="none", labels="none", title='emotions by politi
     plt.yticks(np.arange(0, 105, 5))
 
     plt.legend(rectList, ('negative', 'positive', 'neutral'))
-    plt.show()
+
+    if outputFile != 'none':
+        plt.savefig(outputFile)
+    if show:
+        plt.show()
+    plt.close()
 
 
-
-def barchartTextBlob(inputJsonList="none", labels="none", title=''):
+def barchartTextBlob(inputJsonList, labels, title, outputFile='none', show=False):
 
     sentimentMeanList = []
 
@@ -133,4 +142,9 @@ def barchartTextBlob(inputJsonList="none", labels="none", title=''):
     plt.yticks(np.arange(0, 105, 5))
 
     plt.legend(rectList, ('positive', 'neutral', 'negative'))
-    plt.show()
+
+    if outputFile != 'none':
+        plt.savefig(outputFile)
+    if show:
+        plt.show()
+    plt.close()

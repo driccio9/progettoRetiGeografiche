@@ -1,9 +1,8 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import json
 
 
-def pieChartText2Emotion(inputJson, title="Text to Emotion Result"):
+def pieChartText2Emotion(inputJson, title, outputFile='none', show=False):
     dataFrame = pd.read_json(inputJson, convert_dates=False)
     mean = dataFrame[['Happy', 'Angry', 'Surprise', 'Sad', 'Fear']].mean(axis=0)
     labels = ['Happy', 'Angry', 'Surprise', 'Sad', 'Fear']
@@ -11,10 +10,14 @@ def pieChartText2Emotion(inputJson, title="Text to Emotion Result"):
     plt.style.use('default')
     plt.title(title)
     plt.axis('equal')
-    plt.show()
+    if outputFile != 'none':
+        plt.savefig(outputFile)
+    if show:
+        plt.show()
+    plt.close()
 
 
-def pieChartVader(inputJson, title="Vader"):
+def pieChartVader(inputJson, title, outputFile='none', show=False):
     dataFrame = pd.read_json(inputJson, convert_dates=False)
     mean = dataFrame[['negative', 'positive', 'neutral']].mean(axis=0)
     labels = ['negative', 'positive', 'neutral']
@@ -22,10 +25,14 @@ def pieChartVader(inputJson, title="Vader"):
     plt.style.use('default')
     plt.title(title)
     plt.axis('equal')
-    plt.show()
+    if outputFile != 'none':
+        plt.savefig(outputFile)
+    if show:
+        plt.show()
+    plt.close()
 
 
-def pieChartTextBlob(inputJson, title="Text blob"):
+def pieChartTextBlob(inputJson, title, outputFile='none', show=False):
     df = pd.read_json(inputJson, convert_dates=False)
 
     positive = (df[df['polarity'] > 0].shape[0]/df.shape[0])*100
@@ -38,6 +45,10 @@ def pieChartTextBlob(inputJson, title="Text blob"):
     plt.style.use('default')
     plt.title(title)
     plt.axis('equal')
-    plt.show()
+    if outputFile != 'none':
+        plt.savefig(outputFile)
+    if show:
+        plt.show()
+    plt.close()
 
 

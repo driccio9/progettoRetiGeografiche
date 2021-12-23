@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 
-def funchartT2E(jsonFile, title='sentiment day by day'):
+def funchartT2E(jsonFile, title, outputFile='none', show=False):
     df = pd.read_json(jsonFile, convert_dates=False)
     days = df['date'].drop_duplicates(keep='first', inplace=False).values
     days.sort()
@@ -29,10 +29,15 @@ def funchartT2E(jsonFile, title='sentiment day by day'):
     plt.ylabel('sentiment mean')
     plt.title(title)
     plt.legend()
-    plt.show()
+
+    if outputFile != 'none':
+        plt.savefig(outputFile)
+    if show:
+        plt.show()
+    plt.close()
 
 
-def funchartVader(jsonFile, title='sentiment day by day'):
+def funchartVader(jsonFile, title, outputFile='none', show=False):
     df = pd.read_json(jsonFile, convert_dates=False)
     days = df['date'].drop_duplicates(keep='first', inplace=False).values
     days.sort()
@@ -58,10 +63,15 @@ def funchartVader(jsonFile, title='sentiment day by day'):
     plt.ylabel('sentiment mean')
     plt.title(title)
     plt.legend()
-    plt.show()
+
+    if outputFile != 'none':
+        plt.savefig(outputFile)
+    if show:
+        plt.show()
+    plt.close()
 
 
-def funchartTextBlob(jsonFile, title='sentiment day by day'):
+def funchartTextBlob(jsonFile, title, outputFile='none', show=False):
     df = pd.read_json(jsonFile, convert_dates=False)
 
     dayList = df['date'].drop_duplicates(keep='first', inplace=False).values
@@ -80,5 +90,10 @@ def funchartTextBlob(jsonFile, title='sentiment day by day'):
     plt.ylabel('sentiment mean')
     plt.title(title)
     plt.legend()
-    plt.show()
+
+    if outputFile != 'none':
+        plt.savefig(outputFile)
+    if show:
+        plt.show()
+    plt.close()
 

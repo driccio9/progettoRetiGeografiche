@@ -36,7 +36,7 @@ labels = (
     "PD"
 )
 
-prefix = 'sample/VADER_'
+prefix = 'sample/TB_NLTK_'
 postfix = '.json'
 outPrefix = 'sample/'
 
@@ -46,4 +46,4 @@ inputJsonList = []
 for i in range(0,len(words)):
     inputJsonList.append(prefix + words[i] + postfix)
 
-barchartVader(inputJsonList, labels, "textBlob")
+barchartTextBlob(inputJsonList, labels, "img/prova.png", show=True)
