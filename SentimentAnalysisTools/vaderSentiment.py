@@ -32,8 +32,8 @@ def vaderSentiment(inPathFile, outPathFile, mode='nltk'):
                     'text': tweet['text'],
                     'date': tweet['date'],
                     'negative': score['neg'],
-                    'positive': score['neu'],
-                    'neutral': score['pos'],
+                    'positive': score['pos'],
+                    'neutral': score['neu'],
                     'compound': score['compound']
                 }
             )
