@@ -34,11 +34,3 @@ for analysisToolsIndex in range(0, len(analysisTools)):
             print(outputJson)
             analysisTools[analysisToolsIndex](inputJson, outputJson, mode[modeIndex])
 
-
-
-
-
-
-
-
-
