@@ -20,7 +20,8 @@ words = [
 from datetime import date
 
 today = date.today()
-d1 = today.strftime("%d")
+d1s = today.strftime("%d")
+d1 = int(d1s) + 1
 print(d1)
 day = int(d1) - 7
 
