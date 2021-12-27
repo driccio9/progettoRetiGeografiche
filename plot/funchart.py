@@ -46,14 +46,14 @@ def funchartVader(inputJsonList, labels, title, outputFile='none', show=False):
         days.sort()
         sentimentMeanList = []
         for day in days:
-            sentimentMean = df[df['date'] == day][['negative', 'positive', 'neutral']].mean(axis=0)
+            sentimentMean = df[df['date'] == day][['negative', 'neutral', 'positive']].mean(axis=0)
             sentimentMean = sentimentMean / np.linalg.norm(sentimentMean, ord=1)
             sentimentMean *= 100
             sentimentMeanList.append(sentimentMean)
 
         sentimentMeanMatrix = np.array(sentimentMeanList)
 
-        sentiments = ('negative', 'positive', 'neutral')
+        sentiments = ('negative', 'neutral', 'positive')
 
         for i in range(0, sentimentMeanMatrix.shape[1]):
             plt.plot(days, sentimentMeanMatrix[:, i], label=sentiments[i])
@@ -76,12 +76,14 @@ def funchartVader(inputJsonList, labels, title, outputFile='none', show=False):
 
     if len(inputJsonList) == 1:
         plt.yticks(np.arange(0, 100, 5))
+        plt.ylabel('sentiment mean')
     else:
         plt.yticks(np.arange(-1, 1, 0.10))
+        plt.ylabel('compound')
 
     plt.grid()
     plt.xlabel('day')
-    plt.ylabel('sentiment mean')
+
     plt.title(title)
     plt.legend()
 
@@ -108,7 +110,7 @@ def funchartTextBlob(inputJsonList, labels, title, outputFile='none', show=False
     plt.yticks(np.arange(-1, 1, 0.10))
     plt.grid()
     plt.xlabel('day')
-    plt.ylabel('sentiment mean')
+    plt.ylabel('polarity')
     plt.title(title)
     plt.legend()
 

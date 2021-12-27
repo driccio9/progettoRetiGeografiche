@@ -9,6 +9,7 @@ from SentimentAnalysisTools.vaderSentiment import *
 from plot.funchart import *
 from plot.barchart import *
 from FunctionForCleaning.cleanedFunction import *
+from plot.densitychart import *
 
 #x = 'RT @fausername1: @fakeusername2 just bought 30.6 BTC from https://fakeesceafafa.com &amp; I am hating the crash\n Hope it recovers so... '
 x = '''RT @Morrison: ATAGI says we must have boosters 5mths after our 2nd vax, I'll follow their advice, they're the experts.
@@ -40,6 +41,8 @@ prefix = 'sample/VADER_'
 postfix = '.json'
 outPrefix = 'sample/'
 
+"""
+
 inputJsonList = []
 inputLabel = []
 for word in words:
@@ -47,4 +50,13 @@ for word in words:
 
 #funchartTextBlob(inputJsonList,labels,"polarity by political party",show=True)
 funchartVader(inputJsonList,labels,"polarity by political party",show=True)
+"""
 
+inputJsonList = []
+dirInput = 'SentimentAnalysisToolsOutput/'
+prefixList = ['TB_nltk_', 'TB_regex_', 'TB_none_']
+for i in range(0,len(prefixList)):
+    inputJsonList.append(dirInput + prefixList[i] + words[0] + postfix)
+
+print(inputJsonList)
+densitychartTextBlob(inputJsonList, prefixList, 'densityTextBlob', show=True)

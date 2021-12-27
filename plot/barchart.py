@@ -57,7 +57,7 @@ def barchartVader(inputJsonList, labels, title, outputFile='none', show=False):
     for i in range(0, len(inputJsonList)):
 
         #recupero per ogni partito politico il vettore della media dei sentimenti
-        sentimentMean = pd.read_json(inputJsonList[i],  convert_dates=False)[['negative', 'positive', 'neutral']].mean(axis=0)
+        sentimentMean = pd.read_json(inputJsonList[i],  convert_dates=False)[['negative', 'neutral', 'positive']].mean(axis=0)
 
         sentimentMean = sentimentMean / np.linalg.norm(sentimentMean, ord=1)
 
@@ -89,7 +89,7 @@ def barchartVader(inputJsonList, labels, title, outputFile='none', show=False):
     plt.xticks(ind, labels)
     plt.yticks(np.arange(0, 105, 5))
 
-    plt.legend(rectList, ('negative', 'positive', 'neutral'))
+    plt.legend(rectList, ('negative', 'neutral', 'positive'))
 
     if outputFile != 'none':
         plt.savefig(outputFile)
@@ -108,9 +108,9 @@ def barchartTextBlob(inputJsonList, labels, title, outputFile='none', show=False
 
         sentimentMeanList.append(
             [
-                (df[df['polarity'] > 0].shape[0] / df.shape[0]) * 100,
+                (df[df['polarity'] < 0].shape[0] / df.shape[0]) * 100,
                 (df[df['polarity'] == 0].shape[0] / df.shape[0]) * 100,
-                (df[df['polarity'] < 0].shape[0] / df.shape[0]) * 100
+                (df[df['polarity'] > 0].shape[0] / df.shape[0]) * 100
             ]
         )
 
@@ -141,7 +141,7 @@ def barchartTextBlob(inputJsonList, labels, title, outputFile='none', show=False
     plt.xticks(ind, labels)
     plt.yticks(np.arange(0, 105, 5))
 
-    plt.legend(rectList, ('positive', 'neutral', 'negative'))
+    plt.legend(rectList, ('negative', 'neutral', 'positive'))
 
     if outputFile != 'none':
         plt.savefig(outputFile)
