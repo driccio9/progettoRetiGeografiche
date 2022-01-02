@@ -36,7 +36,7 @@ labels = (
     "PD"
 )
 
-"""
+
 for analysisToolIndex in range(0,len(barchartFunList)):
     for modeIndex in range(0, len(modeList)):
 
@@ -65,7 +65,6 @@ for analysisToolIndex in range(1,len(funchartFunList)):
             prefixList[analysisToolIndex] + modeList[modeIndex],
             dirOutput + 'funchart_' +prefixList[analysisToolIndex] + modeList[modeIndex]
         )
-"""
 
 
 #plotting density chart
@@ -82,7 +81,7 @@ for analysisToolIndex in range(1, len(densitychartFunList)):
     densitychartFunList[analysisToolIndex](
         inputJsonList,
         modeList,
-        "comparison between pdfs on preprocessing paths with" + prefixList[analysisToolIndex][:-1],
+        "comparison between pdfs on preprocessing paths with " + prefixList[analysisToolIndex][:-1],
         dirOutput + 'densitychart_' +prefixList[analysisToolIndex]
     )
 
