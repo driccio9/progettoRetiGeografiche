@@ -55,8 +55,21 @@ funchartVader(inputJsonList,labels,"polarity by political party",show=True)
 inputJsonList = []
 dirInput = 'SentimentAnalysisToolsOutput/'
 prefixList = ['TB_nltk_', 'TB_regex_', 'TB_none_']
-for i in range(0,len(prefixList)):
+
+for i in range(0, len(prefixList)):
     inputJsonList.append(dirInput + prefixList[i] + words[0] + postfix)
 
 print(inputJsonList)
-densitychartTextBlob(inputJsonList, prefixList, 'densityTextBlob', show=True)
+densitychartTextBlob(inputJsonList, prefixList, 'density TextBlob', 'img/densitychart_TB.png')
+
+
+inputJsonList = []
+dirInput = 'SentimentAnalysisToolsOutput/'
+prefixList = ['VADER_nltk_', 'VADER_regex_', 'VADER_none_']
+
+for i in range(0, len(prefixList)):
+    inputJsonList.append(dirInput + prefixList[i] + words[0] + postfix)
+
+print(inputJsonList)
+densitychartVader(inputJsonList, prefixList, 'density Vader', 'img/densitychart_VADER.png')
+
