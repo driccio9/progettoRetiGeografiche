@@ -1,5 +1,6 @@
 from barchart import *
 from funchart import *
+from densitychart import *
 
 dirInput ="SentimentAnalysisToolsOutput/" #"../Tweet/"
 dirOutput = "img/"
@@ -8,6 +9,8 @@ prefixList = ["T2E_", "TB_", "VADER_"]
 modeList = ["none", "nltk", "regex"]
 barchartFunList = [barchartText2Emotion, barchartTextBlob, barchartVader]
 funchartFunList = [funchartT2E, funchartTextBlob, funchartVader]
+densitychartFunList = [None, densitychartTextBlob, densitychartVader]
+
 
 postfixInput = ".json"
 postfixOutput = ".png"
@@ -33,6 +36,7 @@ labels = (
     "PD"
 )
 
+"""
 for analysisToolIndex in range(0,len(barchartFunList)):
     for modeIndex in range(0, len(modeList)):
 
@@ -61,3 +65,24 @@ for analysisToolIndex in range(1,len(funchartFunList)):
             prefixList[analysisToolIndex] + modeList[modeIndex],
             dirOutput + 'funchart_' +prefixList[analysisToolIndex] + modeList[modeIndex]
         )
+"""
+
+
+#plotting density chart
+
+#attenzione da cambiare con alltweet quando sarà processato dai tools di sentiment analysis
+alltweetfilename = words[0]
+
+for analysisToolIndex in range(1, len(densitychartFunList)):
+    inputJsonList = []
+    for modeIndex in range(0, len(modeList)):
+        inputJsonList.append(dirInput + prefixList[analysisToolIndex] + modeList[modeIndex] + '_' + alltweetfilename + postfixInput)
+
+    print(inputJsonList)
+    densitychartFunList[analysisToolIndex](
+        inputJsonList,
+        modeList,
+        "comparison between pdfs on preprocessing paths with" + prefixList[analysisToolIndex][:-1],
+        dirOutput + 'densitychart_' +prefixList[analysisToolIndex]
+    )
+
