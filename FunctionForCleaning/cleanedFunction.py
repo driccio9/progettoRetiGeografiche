@@ -33,15 +33,6 @@ def remove_stopwords(text_data: str):
     return collapse_list_to_string(tokens_without_sw)
 
 
-def translate(text: str):
-    # Usare con cautela
-    auth_key = "2f684879-0068-c95b-5523-aac8599ad960:fx"
-    translator = deepl.Translator(auth_key)
-    target_language = "EN-GB"
-    result = translator.translate_text(text, target_lang=target_language)
-    return result.text
-
-
 def regexSentenceSplit(text: str):
     return re.split(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s", text)
 
