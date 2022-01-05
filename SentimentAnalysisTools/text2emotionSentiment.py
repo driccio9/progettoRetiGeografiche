@@ -1,9 +1,6 @@
 import json
-
 import numpy as np
-import pandas as pd
 import text2emotion as te
-from FunctionForCleaning.cleanedFunction import *
 
 
 def text2emotionSentiment(inputJson, outputJson, mode='none'):
@@ -11,27 +8,36 @@ def text2emotionSentiment(inputJson, outputJson, mode='none'):
     if mode not in valid:
         raise ValueError("mode must be one of %r." % valid)
 
-    if mode == 'none':
-        df = pd.read_json(inputJson, convert_dates=False)
-        emotions = df['text'].map(remove_stopwords).map(te.get_emotion).tolist()
-        dataFrame = pd.concat([df, pd.DataFrame(emotions)], axis=1)
-        dataFrame.to_json(outputJson, orient='records')
-    else:
-        f = open(inputJson, "r")
-        inTweetList = json.loads(f.read())
-        f.close()
+    f = open(inputJson, "r")
+    inTweetList = json.loads(f.read())
+    f.close()
 
-        outTweetList = []
+    # ==========================================================
+    #inTweetList = inTweetList[0:2]  # per provare, da rimuovere
+    # ==========================================================
+
+    outTweetList = []
+
+    if mode == 'none':
+        for tweet in inTweetList:
+            emotion = te.get_emotion(tweet['cleanedText'])
+            outTweetList.append(
+                {
+                    'text': tweet['text'],
+                    'date': tweet['date'],
+                    'Happy': emotion['Happy'],
+                    'Angry': emotion['Angry'],
+                    'Surprise': emotion['Surprise'],
+                    'Sad': emotion['Sad'],
+                    'Fear': emotion['Fear']
+                }
+            )
+    else:
         for tweet in inTweetList:
 
-            if mode == 'nltk':
-                sentenceList = nltkSentenceSplit(tweet['text'])
-            else:
-                sentenceList = regexSentenceSplit(tweet['text'])
-
             emotion = np.zeros(5)
-            for sentence in sentenceList:
-                emotion += np.array(list(te.get_emotion(remove_stopwords(sentence)).values())) / len(sentenceList)
+            for sentence in tweet['cleanedSentences']:
+                emotion += np.array(list(te.get_emotion(sentence).values())) / len(tweet['cleanedSentences'])
 
             norm = np.linalg.norm(emotion, ord=1)
 
@@ -50,9 +56,9 @@ def text2emotionSentiment(inputJson, outputJson, mode='none'):
                 }
             )
 
-        f = open(outputJson, "w")
-        f.write(json.dumps(outTweetList))
-        f.close()
+    f = open(outputJson, "w")
+    f.write(json.dumps(outTweetList))
+    f.close()
 
 
 

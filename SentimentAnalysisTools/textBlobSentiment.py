@@ -1,7 +1,5 @@
 import json
 from textblob import TextBlob
-from FunctionForCleaning.cleanedFunction import *
-
 
 def textBlobSentiment(inPathFile, outPathFile, mode='none'):
     valid = {'nltk', 'regex', 'none'}
@@ -11,6 +9,10 @@ def textBlobSentiment(inPathFile, outPathFile, mode='none'):
     f = open(inPathFile, "r")
     inTweetList = json.loads(f.read())
     f.close()
+
+    # ==========================================================
+    #inTweetList = inTweetList[0:2]  # per provare, da rimuovere
+    # ==========================================================
 
     textblobresult = []
     positive = 0
@@ -24,7 +26,7 @@ def textBlobSentiment(inPathFile, outPathFile, mode='none'):
     #nel caso in cui lo splitting non sia necessario
     if mode == 'none':
         for tweet in inTweetList:
-            analysis = TextBlob(remove_stopwords(tweet['text']))
+            analysis = TextBlob(tweet['text'])
             textblobresult.append(
                 {
                     'text': tweet['text'],
@@ -36,31 +38,32 @@ def textBlobSentiment(inPathFile, outPathFile, mode='none'):
     else:
 
         print("processo...")
-        for sentence in inTweetList:
-
-            if mode == 'nltk':
-                sentenceList = nltkSentenceSplit(sentence['text'])
-
-            if mode == 'regex':
-                sentenceList = regexSentenceSplit(sentence['text'])
+        for tweet in inTweetList:
 
             polarity = 0
             sentiment = 0
-            for text in sentenceList:
-                analysis = TextBlob(remove_stopwords(text))
-                polarity += analysis.sentiment[0] / len(sentenceList)
-                sentiment += analysis.sentiment[1] / len(sentenceList)
+            for sentence in tweet['cleanedSentences']:
+                analysis = TextBlob(sentence)
+                polarity += analysis.sentiment[0] / len(tweet['cleanedSentences'])
+                sentiment += analysis.sentiment[1] / len(tweet['cleanedSentences'])
 
-            textblobresult.append({'text': sentence["text"], 'date': sentence["date"], 'polarity': polarity, 'subjectivity': sentiment})
+            textblobresult.append(
+                {
+                    'text': tweet["text"],
+                    'date': tweet["date"],
+                    'polarity': polarity,
+                    'subjectivity': sentiment
+                }
+            )
 
             if polarity > 0:
-                positive_list.append(text)
+                positive_list.append(tweet["text"])
                 positive += 1
             elif polarity < 0:
-                negative_list.append(text)
+                negative_list.append(tweet["text"])
                 negative += 1
             else:
-                neutral_list.append(text)
+                neutral_list.append(tweet["text"])
                 neutral += 1
 
         print("===INFO TEXT BLOB RESULT===")

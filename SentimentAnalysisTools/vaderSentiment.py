@@ -1,13 +1,11 @@
 import json
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-from FunctionForCleaning.cleanedFunction import *
 
 
 def vaderSentiment(inPathFile, outPathFile, mode='nltk'):
     valid = {'nltk', 'regex', 'none'}
     if mode not in valid:
         raise ValueError("mode must be one of %r." % valid)
-    nltk.download('vader_lexicon')
 
     positive = 0
     negative = 0
@@ -21,12 +19,16 @@ def vaderSentiment(inPathFile, outPathFile, mode='nltk'):
     inTweetList = json.loads(f.read())
     f.close()
 
+    #==========================================================
+    #inTweetList = inTweetList[0:2]  # per provare, da rimuovere
+    #==========================================================
+
     noOfTweet = len(inTweetList)
 
     # nel caso in cui lo splitting non sia necessario
     if mode == 'none':
         for tweet in inTweetList:
-            score = SentimentIntensityAnalyzer().polarity_scores(remove_stopwords(tweet['text']))
+            score = SentimentIntensityAnalyzer().polarity_scores(tweet['text'])
             sentiment_tweet.append(
                 {
                     'text': tweet['text'],
@@ -38,36 +40,39 @@ def vaderSentiment(inPathFile, outPathFile, mode='nltk'):
                 }
             )
     else:
-        for sentence in inTweetList:
-            if mode == 'nltk':
-                sentenceList = nltkSentenceSplit(sentence['text'])
-
-            if mode == 'regex':
-                sentenceList = regexSentenceSplit(sentence['text'])
+        for tweet in inTweetList:
 
             neg = 0
             neu = 0
             pos = 0
             comp = 0
-            for text in sentenceList:
-                score = SentimentIntensityAnalyzer().polarity_scores(remove_stopwords(text))
-                neg += score['neg'] / len(sentenceList)
-                neu += score['neu'] / len(sentenceList)
-                pos += score['pos'] / len(sentenceList)
-                comp += score['compound'] / len(sentenceList)
+
+            for sentence in tweet['cleanedSentences']:
+                score = SentimentIntensityAnalyzer().polarity_scores(sentence)
+                neg += score['neg'] / len(tweet['cleanedSentences'])
+                neu += score['neu'] / len(tweet['cleanedSentences'])
+                pos += score['pos'] / len(tweet['cleanedSentences'])
+                comp += score['compound'] / len(tweet['cleanedSentences'])
 
             sentiment_tweet.append(
-                {'text': sentence["text"], 'date': sentence["date"], 'negative': neg, 'positive': pos, 'neutral': neu,
-                 'compound': comp})
+                {
+                    'text': tweet["text"],
+                    'date': tweet["date"],
+                    'negative': neg,
+                    'positive': pos,
+                    'neutral': neu,
+                    'compound': comp
+                }
+            )
 
             if neg > pos:
-                negative_list.append(text)
+                negative_list.append(tweet["text"])
                 negative += 1
             elif pos > neg:
-                positive_list.append(text)
+                positive_list.append(tweet["text"])
                 positive += 1
             elif pos == neg:
-                neutral_list.append(text)
+                neutral_list.append(tweet["text"])
                 neutral += 1
 
         print("===INFO VADER SENTIMENT RESULT===")

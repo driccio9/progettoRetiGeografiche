@@ -1,10 +1,8 @@
 import re
 import html
-import deepl
 import nltk
+import json
 
-#nltk.download('punkt')
-#nltk.download('stopwords')
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 
@@ -45,34 +43,46 @@ def removeRedundance(l: list):
     return [dict(t) for t in {tuple(d.items()) for d in l}]
 
 
-def preProcessingPathway_1(text:str):
-    """ NltkSplit -> cleaned """
-    sentences = nltkSentenceSplit(text)
-    for i in range(0, len(sentences)):
-        sentences[i] = cleaned(sentences[i])
-    return sentences
+def preProcessing(inputJson, outputJson, mode):
+    valid = {'nltk', 'regex', 'none'}
+    if mode not in valid:
+        raise ValueError("mode must be one of %r." % valid)
 
+    f = open(inputJson, "r")
+    inTweetList = json.loads(f.read())
+    f.close()
 
-def preProcessingPathway_2(text:str):
-    """ RegexSplit -> cleaned """
-    sentences = regexSentenceSplit(text)
-    for i in range(0, len(sentences)):
-        sentences[i] = cleaned(sentences[i])
-    return sentences
+    outTweetList = []
 
+    for tweet in inTweetList:
+        if mode == 'none':
+            outTweetList.append(
+                {
+                    'text': tweet['text'],
+                    'date': tweet['date'],
+                    'cleanedText': remove_stopwords(tweet['text'])
+                }
+            )
+        else:
+            sentenceList = []
+            if mode == 'nltk':
+                sentenceList = nltkSentenceSplit(tweet['text'])
+            elif mode == 'regex':
+                sentenceList = regexSentenceSplit(tweet['text'])
 
-def preProcessingPathway_3(text:str):
-    """ cleaned """
-    return cleaned(text)
+            for i in range(0,len(sentenceList)):
+                sentenceList[i] = remove_stopwords(sentenceList[i])
 
+            outTweetList.append(
+                {
+                    'text': tweet['text'],
+                    'date': tweet['date'],
+                    'cleanedSentences': sentenceList
+                }
+            )
 
-def preProcessingPathway_4(text:str):
-    """ cleaned -> NltkSplit """
-    cleanedText = cleaned(text)
-    return nltkSentenceSplit(cleanedText)
+    f = open(outputJson, "w")
+    f.write(json.dumps(outTweetList))
+    f.close()
 
-
-def preProcessingPathway_5(text:str):
-    """ cleaned -> RegexSplit """
-    cleanedText = cleaned(text)
-    return regexSentenceSplit(text)
+    print(outputJson)
