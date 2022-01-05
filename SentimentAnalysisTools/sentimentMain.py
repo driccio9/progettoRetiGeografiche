@@ -2,8 +2,8 @@ from SentimentAnalysisTools.text2emotionSentiment import *
 from SentimentAnalysisTools.textBlobSentiment import *
 from SentimentAnalysisTools.vaderSentiment import *
 
-dirInput ="sample/" #"../Tweet/"
-dirOutput = "SentimentAnalysisToolsOutput/"
+dirInput ="../Tweet/"
+dirOutput = "../SentimentAnalysisToolsOutput/"
 
 prefixInput = "TRANSLATED_"
 
@@ -12,7 +12,6 @@ mode = ["none", "nltk", "regex"]
 analysisTools = [text2emotionSentiment, textBlobSentiment, vaderSentiment]
 
 postfix = ".json"
-#WIP...
 
 #per questioni di prove manca l'hashtag #greenpass. Attenzione!
 words = [
@@ -27,10 +26,22 @@ words = [
 
 for analysisToolsIndex in range(0, len(analysisTools)):
     for modeIndex in range(0, len(mode)):
+
+
+        #per ogni partito
         for word in words:
             inputJson = dirInput + prefixInput + word + postfix
             outputJson = dirOutput + prefixOutput[analysisToolsIndex] + mode[modeIndex] + "_" + word + postfix
             print(inputJson)
             print(outputJson)
             analysisTools[analysisToolsIndex](inputJson, outputJson, mode[modeIndex])
+
+
+        #per allTweet
+        analysisTools[analysisToolsIndex](
+            dirInput + "allTweetTranslate" + postfix,
+            dirOutput + prefixOutput[analysisToolsIndex] + mode[modeIndex] + "_" + "allTweet" + postfix,
+            mode[modeIndex]
+        )
+
 
