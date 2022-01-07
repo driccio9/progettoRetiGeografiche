@@ -119,10 +119,3 @@ for politicalIndex in range(0, len(words)):
                 title=toolList[toolIndex] + '_' + labels[politicalIndex],
                 outputFile=dirOutput + 'funchart_VADER_' + labels[politicalIndex]
             )
-
-
-pieChartVader(
-    'SentimentAnalysisToolsOutput/VADER_none_(#greenpass OR #supergreenpass OR #greenpassrafforzato OR #obbligovaccinale OR #vaccinoobbligatorio) (salvini OR lega).json',
-    'prova',
-    show=True
-)
