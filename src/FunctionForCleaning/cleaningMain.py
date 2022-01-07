@@ -1,7 +1,7 @@
 from cleanedFunction import preProcessing
 
-dirInput ="../TranslatedTweet/"
-dirOutput = "../CleanedTweet/"
+dirInput ="data/TranslatedTweet/"
+dirOutput = "data/CleanedTweet/"
 
 modeList = ["none", "nltk", "regex"]
 
