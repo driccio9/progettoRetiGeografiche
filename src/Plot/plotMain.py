@@ -3,7 +3,7 @@ from funchart import *
 from densitychart import *
 from piechart import *
 
-dirInput ="SentimentAnalysisToolsOutput/" #"../Tweet/"
+dirInput ="data/SentimentAnalysisToolsOutput/" #"../Tweet/"
 dirOutput = "img/"
 
 

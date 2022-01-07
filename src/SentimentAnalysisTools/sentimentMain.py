@@ -20,8 +20,8 @@ class MyThread(Thread):
 
 numThreads = 4
 
-dirInput = "CleanedTweet/"
-dirOutput = "SentimentAnalysisToolsOutput/"
+dirInput = "data/CleanedTweet/"
+dirOutput = "data/SentimentAnalysisToolsOutput/"
 
 prefixOutput = ["T2E_", "TB_", "VADER_"]
 mode = ["none", "nltk", "regex"]
