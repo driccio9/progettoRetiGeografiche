@@ -18,6 +18,8 @@ def funchartT2E(jsonFile, title, outputFile='none', show=False):
 
     labels = ('Happy', 'Angry', 'Surprise', 'Sad', 'Fear')
 
+
+
     for i in range(0, sentimentMeanMatrix.shape[1]):
         plt.plot(days, sentimentMeanMatrix[:,i], label=labels[i])
 
@@ -39,6 +41,7 @@ def funchartT2E(jsonFile, title, outputFile='none', show=False):
 
 def funchartVader(inputJsonList, labels, title, outputFile='none', show=False):
 
+    fig = plt.subplots(figsize=(10, 7))
     # nel caso si abbia un unico file, stampo la variazione dei 3 sentimenti nel tempo
     if len(inputJsonList) == 1:
         df = pd.read_json(inputJsonList[0], convert_dates=False)
@@ -95,6 +98,7 @@ def funchartVader(inputJsonList, labels, title, outputFile='none', show=False):
 
 
 def funchartTextBlob(inputJsonList, labels, title, outputFile='none', show=False):
+    fig = plt.subplots(figsize=(10, 7))
     for i in range(0, len(inputJsonList)):
         df = pd.read_json(inputJsonList[i], convert_dates=False)
         dayList = df['date'].drop_duplicates(keep='first', inplace=False).values
