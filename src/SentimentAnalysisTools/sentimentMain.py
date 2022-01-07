@@ -1,6 +1,6 @@
-from SentimentAnalysisTools.text2emotionSentiment import *
-from SentimentAnalysisTools.textBlobSentiment import *
-from SentimentAnalysisTools.vaderSentiment import *
+from src.SentimentAnalysisTools.text2emotionSentiment import *
+from src.SentimentAnalysisTools.textBlobSentiment import *
+from src.SentimentAnalysisTools.vaderSentiment import *
 from threading import Thread
 
 

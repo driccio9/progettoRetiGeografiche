@@ -1,9 +1,8 @@
-import json
 import time
 
 from googletrans import Translator
 
-from FunctionForCleaning.cleanedFunction import *
+from src.FunctionForCleaning.cleanedFunction import *
 
 input = "../Tweet/alltweet.json"
 output = "../Tweet/allTweetTranslate.json"

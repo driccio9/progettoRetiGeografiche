@@ -28,7 +28,7 @@ day = int(d1) - 7
 auth = tweepy.AppAuthHandler(consumerKey, consumerSecret)
 api = tweepy.API(auth, wait_on_rate_limit=True)
 word = 0
-dir = "../Tweet/"
+dir = "../../data/Tweet/"
 
 while True:
     fileopen = dir + words[word] + ".json"
