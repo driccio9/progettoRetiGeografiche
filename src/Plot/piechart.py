@@ -19,8 +19,8 @@ def pieChartText2Emotion(inputJson, title, outputFile='none', show=False):
 
 def pieChartVader(inputJson, title, outputFile='none', show=False):
     dataFrame = pd.read_json(inputJson, convert_dates=False)
-    mean = dataFrame[['negative', 'positive', 'neutral']].mean(axis=0)
-    labels = ['negative', 'positive', 'neutral']
+    mean = dataFrame[['positive', 'neutral', 'negative']].mean(axis=0)
+    labels = ['positive', 'neutral', 'negative']
     patches, texts, junk = plt.pie(mean.values, labels=labels, startangle=90, autopct='%.2f')
     plt.style.use('default')
     plt.title(title)

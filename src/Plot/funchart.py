@@ -123,3 +123,38 @@ def funchartTextBlob(inputJsonList, labels, title, outputFile='none', show=False
     if show:
         plt.show()
     plt.close()
+
+
+def funchartVaderTextBlob(inputVader, inputTextBlob, title, outputFile='none', show=False):
+    fig = plt.subplots(figsize=(10, 7))
+    dfVader = pd.read_json(inputVader, convert_dates=False)
+    dayListVader = dfVader['date'].drop_duplicates(keep='first', inplace=False).values
+    dayListVader.sort()
+    polarityMeanList = []
+    for day in dayListVader:
+        polarityMeanList.append(float(dfVader[dfVader['date'] == day]['compound'].mean(axis=0)))
+    plt.plot(dayListVader, polarityMeanList, label="Vader_compound")
+
+    dfTextBlob = pd.read_json(inputTextBlob, convert_dates=False)
+    dayListTextBlob = dfTextBlob['date'].drop_duplicates(keep='first', inplace=False).values
+    dayListTextBlob.sort()
+    polarityMeanList = []
+    for day in dayListTextBlob:
+        polarityMeanList.append(float(dfTextBlob[dfTextBlob['date'] == day]['polarity'].mean(axis=0)))
+    plt.plot(dayListTextBlob, polarityMeanList, label="TB_polarity")
+
+    ax = plt.gca()
+    ax.tick_params(axis='x', labelrotation=45)
+    plt.yticks(np.arange(-1, 1, 0.10))
+    plt.grid()
+    plt.xlabel('day')
+    plt.ylabel('polarity/compound')
+    plt.title(title)
+    plt.legend()
+
+    if outputFile != 'none':
+        plt.savefig(outputFile)
+    if show:
+        plt.show()
+    plt.close()
+    pass
