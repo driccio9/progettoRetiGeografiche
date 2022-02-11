@@ -103,3 +103,4 @@ def pieChartText2EmotionByDate(date, inputJson, title, outputFile='none', show=F
     if show:
         plt.show()
     plt.close()
+

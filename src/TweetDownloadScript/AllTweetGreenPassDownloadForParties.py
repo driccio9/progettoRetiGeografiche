@@ -1,10 +1,10 @@
 import json
 import tweepy
 
-consumerKey = "MWdBTvrB6X2B3ykmaZ98GdQBo"
-consumerSecret = "r26Ixa7suHNOjnmSy6IhmYR2buhzs2VkYZxPs5kdPMG0lqTKPG"
-accessToken = "1463101705462108163-M72tQuxp7FDGTtMUiD9YcLEcKkl0w7"
-accessTokenSecret = "zhn0bp4aKpXFKnAeF3ZHfkylIcoBYr46m5JlfK4TzDrgO"
+consumerKey = "yourConsumerKey"
+consumerSecret = "yourConsumerSecret"
+accessToken = "yourAccessToken"
+accessTokenSecret = "yourAccessTokenSecret"
 safezone = False
 
 words = [
